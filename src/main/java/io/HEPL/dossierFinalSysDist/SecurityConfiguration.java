@@ -1,5 +1,6 @@
 package io.HEPL.dossierFinalSysDist;
 
+import io.HEPL.dossierFinalSysDist.services.MyUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -16,7 +17,7 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Autowired
-    UserDetailsService userDetailsService;
+    MyUserDetailsService userDetailsService;
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -26,10 +27,15 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers("/admin").hasRole("ADMIN")
-                .antMatchers("/user").hasAnyRole("ADMIN", "USER")
-                .antMatchers("/").permitAll()
-                .and().formLogin();
+                .antMatchers("/", "/js/", "/css/").permitAll()
+                .anyRequest().authenticated()
+                .and()
+                .formLogin()
+                .defaultSuccessUrl("/home", true).permitAll()
+                .and()
+                .logout()
+                .logoutSuccessUrl("/logout")
+                .permitAll();
     }
 
     @Bean

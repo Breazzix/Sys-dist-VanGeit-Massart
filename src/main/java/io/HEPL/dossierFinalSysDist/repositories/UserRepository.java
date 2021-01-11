@@ -1,4 +1,4 @@
-package io.HEPL.dossierFinalSysDist;
+package io.HEPL.dossierFinalSysDist.repositories;
 
 import io.HEPL.dossierFinalSysDist.models.User;
 import org.springframework.data.jpa.repository.JpaRepository;

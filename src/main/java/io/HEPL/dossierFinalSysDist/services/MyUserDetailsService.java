@@ -1,5 +1,6 @@
-package io.HEPL.dossierFinalSysDist;
+package io.HEPL.dossierFinalSysDist.services;
 
+import io.HEPL.dossierFinalSysDist.repositories.UserRepository;
 import io.HEPL.dossierFinalSysDist.models.MyUserDetails;
 import io.HEPL.dossierFinalSysDist.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
