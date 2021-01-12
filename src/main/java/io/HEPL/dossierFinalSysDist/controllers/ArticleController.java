@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpSession;
+import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -19,6 +20,7 @@ import java.util.Map;
 public class ArticleController {
     private ArticleService productService;
     private TvaService tvaService;
+    private static DecimalFormat df2 = new DecimalFormat("#.##");
 
     public ArticleController(ArticleService productService, TvaService tvaService) {
         this.productService = productService;
@@ -43,7 +45,8 @@ public class ArticleController {
         if (session.getAttribute("prodsess") == null) {
             LinkedList<Article> cart = new LinkedList<Article>();
             int tva = tvaService.getTva(p.getCategory());
-            Article article = new Article(p.getName(),p.getPrix(),tva);
+            float prixFinal = tvaService.round(p.getPrix()+(p.getPrix()*tva/100),2);
+            Article article = new Article(p.getName(),prixFinal,tva);
             cart.add(article);
             session.setAttribute("prodsess", cart);
             model.addAttribute("cart", cart);
@@ -51,11 +54,13 @@ public class ArticleController {
             for (int i=0;i<cart.size();i++) {
                 sum += cart.get(i).getPrix();
             }
+            sum = tvaService.round(sum,2);
             model.addAttribute("sum", sum);
         } else {
             LinkedList<Article> cart = (LinkedList<Article>) session.getAttribute("prodsess");
             int tva = tvaService.getTva(p.getCategory());
-            Article article = new Article(p.getName(),p.getPrix(),tva);
+            float prixFinal = tvaService.round(p.getPrix()+(p.getPrix()*tva/100),2);
+            Article article = new Article(p.getName(),prixFinal,tva);
             cart.add(article);
             session.setAttribute("prodsess", cart);
             model.addAttribute("cart", cart);
@@ -63,6 +68,7 @@ public class ArticleController {
             for (int i=0;i<cart.size();i++) {
                 sum += cart.get(i).getPrix();
             }
+            sum = tvaService.round(sum,2);
             model.addAttribute("sum", sum);
 
         }

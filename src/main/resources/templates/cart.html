@@ -90,6 +90,14 @@
         </tr>
     </table>
     <h2 style="display:inline">Montant total :</h2><h2 style="display:inline" th:text="${sum}"></h2><h2 style="display:inline">$</h2>
+    <form method="post">
+        <input type="radio" id="btn1" name="livraison" value="10">
+        <label >Express : 10$</label><br>
+        <input type="radio" id="btn2" name="livraison" value="5">
+        <label >Normal : 5$</label><br>
+
+        <button type="submit">Valider</button>
+    </form>
     <p>
         <a href="/home">Continuer les achats</a>
     </p>
